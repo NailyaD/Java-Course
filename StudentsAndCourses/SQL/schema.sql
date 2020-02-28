@@ -33,5 +33,26 @@ insert into Course (course_id, title, description)
                     (3, 'Angular', 'JavaScript Framework'),
                     (4, 'DevOps', 'Developer Operations');
 
+<<<<<<< Updated upstream
+=======
+/*left join*/
+select first_name, last_name, title
+from Student
+left join Course on Student.course_id = Course.course_id;
+
+/*right join*/
+select first_name, last_name, title
+from Student
+right join Course on Student.course_id = Course.course_id;
+
+/*full outer join*/
+select first_name, last_name, title
+from Student
+left join Course on Student.course_id = Course.course_id
+union
+select first_name, last_name, title
+from Student
+right join Course on Student.course_id = Course.course_id;
+>>>>>>> Stashed changes
 
 
