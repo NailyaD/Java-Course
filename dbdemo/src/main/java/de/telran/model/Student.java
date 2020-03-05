@@ -1,33 +1,25 @@
 package de.telran.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Setter
-@Getter
-@Builder
-
+@Data
 @Entity
-@Table(name = "Student")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Student {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "student_id")
-    private int studentId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long studentId;
 
-    @Column(nullable = false, name = "first_name")
     private String firstName;
 
-    @Column(nullable = false, name = "last_name")
     private String lastName;
 
     @Nullable
-    @Column(name = "course_id")
-    private int courseId;
+    private Long courseId;
 }
 
 
