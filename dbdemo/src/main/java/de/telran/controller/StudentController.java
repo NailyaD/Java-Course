@@ -1,6 +1,7 @@
 package de.telran.controller;
 
-import de.telran.model.Student;
+import de.telran.dto.SchoolDto;
+import de.telran.entity.StudentEntity;
 import de.telran.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,18 +19,23 @@ public class StudentController {
     }
 
     @GetMapping ("/api/students")
-    List<Student> getAllStudents() {
+    List<StudentEntity> getAllStudents() {
         return service.getAllStudents();
     }
 
     @PostMapping ("/api/students")
-    Student createStudent (@RequestBody Student student) {
+    StudentEntity createStudent (@RequestBody StudentEntity student) {
         return service.createStudent(student);
     }
 
     @PutMapping ("/api/students")
-    Student assignStudentToCourse (@RequestBody Student student) {
+    StudentEntity assignStudentToCourse (@RequestBody StudentEntity student) {
         service.assignStudentToCourse(student);
         return service.getStudentById(student.getStudentId());
+    }
+
+    @GetMapping ("/api/school")
+    SchoolDto getSchoolInfo() {
+        return service.getSchoolInfo();
     }
 }
