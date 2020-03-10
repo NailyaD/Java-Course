@@ -1,17 +1,13 @@
 package de.telran.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.lang.Nullable;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
-@AllArgsConstructor
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class StudentEntity {
@@ -20,6 +16,7 @@ public class StudentEntity {
     private Long studentId;
     private String firstName;
     private String lastName;
-    @Nullable
+    @JoinColumn(name = "course_id", insertable = false, updatable = false)
+    @Fetch(FetchMode.JOIN)
     private Long courseId;
 }
