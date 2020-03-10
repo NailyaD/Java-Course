@@ -19,9 +19,11 @@ import java.util.List;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static sun.plugin2.util.PojoUtil.toJson;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(StudentController.class)
@@ -85,8 +87,16 @@ public class StudentControllerTest {
     }
 
     private List<StudentEntity> createListOfStudents() {
-        StudentEntity student1 = new StudentEntity(0L, "Ivan", "Petrov", 1L);
-        StudentEntity student2 = new StudentEntity(1L, "Piotr", "Ivanov", 2L);
+        StudentEntity student1 = new StudentEntity();
+        student1.setStudentId(0L);
+        student1.setFirstName("Ivan");
+        student1.setLastName("Petrov");
+        student1.setCourseId(1L);
+        StudentEntity student2 = new StudentEntity();
+        student2.setStudentId(1L);
+        student2.setFirstName("Piotr");
+        student2.setLastName("Ivanov");
+        student2.setCourseId(2L);
 
         return Arrays.asList(student1, student2);
     }

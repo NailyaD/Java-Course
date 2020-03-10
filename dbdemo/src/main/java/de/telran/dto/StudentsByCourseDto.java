@@ -1,17 +1,11 @@
-package de.telran.entity;
+package de.telran.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
 @Data
 @AllArgsConstructor
-@Entity
-public class StudentsByCourseEntity {
-    @Id
-    private Long id;
+public class StudentsByCourseDto {
     private String title;
     private String firstName;
     private String lastName;

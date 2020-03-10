@@ -1,15 +1,21 @@
 package de.telran.service;
 
+import de.telran.dto.CourseDto;
 import de.telran.dto.SchoolDto;
+import de.telran.dto.StudentDto;
 import de.telran.entity.StudentEntity;
-import de.telran.entity.StudentsByCourseEntity;
+import de.telran.dto.StudentsByCourseDto;
 import de.telran.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
 public class StudentService {
@@ -17,27 +23,37 @@ public class StudentService {
     @Autowired
     StudentRepository repository;
 
-    public List<StudentEntity> getAllStudents() {
-        return repository.findAll();
-    }
-
     public StudentEntity createStudent(StudentEntity student) {
         return repository.save(student);
     }
 
-    public void assignStudentToCourse(StudentEntity student) {
-        repository.assignStudentToCourse(student.getStudentId(), student.getCourseId());
+    public List<StudentEntity> getAllStudents() {
+        return repository.findAll();
     }
 
     public StudentEntity getStudentById (Long studentId) {
         return repository.getOne(studentId);
     }
 
-    public SchoolDto getSchoolInfo() {
-        List<StudentsByCourseEntity> studentsByCourse = repository.getStudentsByCourseId(1);
+    public int assignStudentToCourse(StudentEntity student) {
+        return repository.assignStudentToCourse(student.getStudentId(), student.getCourseId());
+    }
 
-        SchoolDto school = new SchoolDto(Collections.EMPTY_LIST);
-        //map studentsByCourse to School
-        return school;
+    public SchoolDto getSchoolInfo() {
+        List<StudentsByCourseDto> studentsByCourse = repository.getStudentsByCourseId();
+
+        System.out.println(studentsByCourse);
+
+        List<CourseDto> courses = new ArrayList<>();
+
+        Map<String, List<StudentsByCourseDto>> collect = studentsByCourse
+                .stream()
+                .collect(Collectors.groupingBy(StudentsByCourseDto::getTitle));
+
+        collect.forEach((k, v) ->
+                courses.add(new CourseDto(k, v.stream().map(s -> new StudentDto(s.getFirstName(), s.getLastName()))
+                        .collect(toList()))));
+
+        return new SchoolDto(courses);
     }
 }
