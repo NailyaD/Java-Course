@@ -74,6 +74,34 @@ public class StudentControllerTest {
                 .andExpect(jsonPath("$.courses[1].students[1].lastName").value("Alekseyev"));
     }
 
+    @Test
+    public void testCreateStudent() throws Exception {
+
+        StudentEntity s1 = new StudentEntity();
+
+        when(service.createStudent(s1))
+                .thenReturn(createNewStudent());
+
+        mvc.perform(post("/api/students")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(toJson(s1)))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$.studentId").value("0"))
+                .andExpect(jsonPath("$.firstName").value("Ivan"))
+                .andExpect(jsonPath("$.lastName").value("Petrov"))
+                .andExpect(jsonPath("$.courseId").value("1"));
+    }
+
+    private StudentEntity createNewStudent() {
+        StudentEntity student1 = new StudentEntity();
+        student1.setStudentId(0L);
+        student1.setFirstName("Ivan");
+        student1.setLastName("Petrov");
+        student1.setCourseId(1L);
+        return student1;
+    }
+
     private SchoolDto getSchoolData() {
         StudentDto s1 = new StudentDto("Ivan", "Petrov");
         StudentDto s2 = new StudentDto("Piotr", "Ivanov");
