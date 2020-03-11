@@ -21,10 +21,10 @@ import static org.mockito.Mockito.when;
 public class StudentServiceTest {
 
     @TestConfiguration
-    static class EmployeeServiceImplTestContextConfiguration {
+    static class StudentServiceImplTestContextConfiguration {
 
         @Bean
-        public StudentService employeeService() {
+        public StudentService studentService() {
             return new StudentService();
         }
     }
